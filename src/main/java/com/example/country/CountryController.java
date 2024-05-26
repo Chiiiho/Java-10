@@ -21,18 +21,9 @@ public class CountryController {
             @RequestParam(name = "cityStartsWith", required = false, defaultValue = "") String cityStartsWith,
             @RequestParam(name = "countryCode", required = false) Integer countryCode
             ) {
-        if (countryCode != null) {
-            return countryService.findByCountryCode(countryCode);
-        } else if (!countryStartsWith.isEmpty() && !cityStartsWith.isEmpty()) {
-            return countryService.findByCountryAndCity(countryStartsWith, cityStartsWith);
-        } else if (!countryStartsWith.isEmpty()) {
-            return countryService.findByCountry(countryStartsWith);
-        } else if (!cityStartsWith.isEmpty()) {
-            return countryService.findByCity(cityStartsWith);
-        } else {
-            return countryService.findAll();
-        }
+        return countryService.getCountries(countryStartsWith, cityStartsWith, countryCode);
     }
+
 
     @GetMapping("/countries/{id}")
     public Country findById(@PathVariable("id") int id) {

@@ -41,4 +41,17 @@ public class CountryService {
                 .orElseThrow(() -> new CountryNotFoundException("Country with ID " + id + " not found"));
     }
 
+        public List<Country> getCountries(String countryStartsWith, String cityStartsWith, Integer countryCode) {
+
+        if (countryCode != null) {
+            return findByCountryCode(countryCode);
+        } else if (!countryStartsWith.isEmpty()) {
+            return findByCountry(countryStartsWith);
+        } else if (!cityStartsWith.isEmpty()) {
+            return findByCity(cityStartsWith);
+        } else {
+            return findAll();
+        }
+    }
+
 }
