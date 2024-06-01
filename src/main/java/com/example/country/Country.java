@@ -2,28 +2,24 @@ package com.example.country;
 
 public class Country {
 
-    private int id;
-    private String country;
     private int countryCode;
+
+    private String country;
+
     private String city;
 
-    public Country(int id, String country, int countryCode, String city) {
-        this.id = id;
-        this.country = country;
+    public Country(int countryCode, String country, String city) {
         this.countryCode = countryCode;
+        this.country = country;
         this.city = city;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getCountry() {
-        return country;
     }
 
     public int getCountryCode() {
         return countryCode;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public String getCity() {

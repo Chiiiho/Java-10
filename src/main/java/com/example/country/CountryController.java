@@ -18,16 +18,14 @@ public class CountryController {
     @GetMapping("/countries")
     public List<Country> getCountries(
             @RequestParam(name = "countryStartsWith", required = false, defaultValue = "") String countryStartsWith,
-            @RequestParam(name = "cityStartsWith", required = false, defaultValue = "") String cityStartsWith,
-            @RequestParam(name = "countryCode", required = false) Integer countryCode
+            @RequestParam(name = "cityStartsWith", required = false, defaultValue = "") String cityStartsWith
             ) {
-        return countryService.getCountries(countryStartsWith, cityStartsWith, countryCode);
+        return countryService.getCountries(countryStartsWith, cityStartsWith);
     }
 
-
-    @GetMapping("/countries/{id}")
-    public Country findById(@PathVariable("id") int id) {
-        return countryService.findById(id);
+    @GetMapping("/countries/{country_code}")
+    public Country findByCountryCode(@PathVariable("country_code") int countryCode) {
+        return countryService.findByCountryCode(countryCode);
     }
 
 }

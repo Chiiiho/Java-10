@@ -19,9 +19,6 @@ public interface CountryMapper {
     List<Country> findByCityStartingWith(String prefix);
 
     @Select("SELECT * FROM countries WHERE country_code = #{country_code}")
-    List<Country> findByCountryCode(int countryCode);
-
-    @Select("SELECT * FROM countries WHERE id = #{id}")
-    Optional<Country> findById(int id);
+    Optional<Country> findByCountryCode(int countryCode);
 
 }
