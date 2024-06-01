@@ -18,9 +18,6 @@ public interface CountryMapper {
     @Select("SELECT * FROM countries WHERE city LIKE CONCAT(#{prefix}, '%')")
     List<Country> findByCityStartingWith(String prefix);
 
-    @Select("SELECT * FROM countries WHERE country LIKE CONCAT(#{countryPrefix}, '%') OR city LIKE CONCAT(#{cityPrefix}, '%')")
-    List<Country> findByCountryAndCityStartingWith(String countryPrefix, String cityPrefix);
-
     @Select("SELECT * FROM countries WHERE country_code = #{country_code}")
     List<Country> findByCountryCode(int countryCode);
 

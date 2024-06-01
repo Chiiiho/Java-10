@@ -24,10 +24,6 @@ public class CountryService {
         return countryMapper.findByCityStartingWith(prefix);
     }
 
-    public List<Country> findByCountryAndCity(String countryPrefix, String cityPrefix) {
-        return countryMapper.findByCountryAndCityStartingWith(countryPrefix, cityPrefix);
-    }
-
     public List<Country> findByCountryCode(int countryCode) {
         List<Country> countries = countryMapper.findByCountryCode(countryCode);
         if (countries.isEmpty()) {
