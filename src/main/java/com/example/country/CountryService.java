@@ -30,7 +30,6 @@ public class CountryService {
     }
 
     public List<Country> getCountries(String countryStartsWith, String cityStartsWith) {
-
         if (!countryStartsWith.isEmpty()) {
             return findByCountry(countryStartsWith);
         } else if (!cityStartsWith.isEmpty()) {
@@ -38,6 +37,16 @@ public class CountryService {
         } else {
             return findAll();
         }
+    }
+
+    public Country insert(int countryCode, String country, String city) {
+        Country country1 = new Country(countryCode, country, city);
+        if (countryMapper.findByCountryCode(countryCode).isPresent()) {
+            throw new CountryDuplicatedException("Country with code " + countryCode + " duplicated");
+        }
+        countryMapper.insert(country1);
+        return country1;
+
     }
 
 }
