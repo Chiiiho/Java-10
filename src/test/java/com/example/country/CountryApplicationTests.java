@@ -1,10 +1,10 @@
-package com.example.countryservice;
+package com.example.country;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CountryserviceApplicationTests {
+class CountryApplicationTests {
 
 	@Test
 	void contextLoads() {
