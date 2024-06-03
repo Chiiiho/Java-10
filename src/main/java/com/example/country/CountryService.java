@@ -40,13 +40,12 @@ public class CountryService {
     }
 
     public Country insert(int countryCode, String country, String city) {
-        Country country1 = new Country(countryCode, country, city);
         if (countryMapper.findByCountryCode(countryCode).isPresent()) {
             throw new CountryDuplicatedException("Country with code " + countryCode + " duplicated");
         }
+        Country country1 = new Country(countryCode, country, city);
         countryMapper.insert(country1);
         return country1;
-
     }
 
 }
