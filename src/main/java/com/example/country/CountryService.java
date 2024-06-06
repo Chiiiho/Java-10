@@ -43,9 +43,9 @@ public class CountryService {
         if (countryMapper.findByCountryCode(countryCode).isPresent()) {
             throw new CountryDuplicatedException("Country with code " + countryCode + " duplicated");
         }
-        Country country1 = new Country(countryCode, country, city);
-        countryMapper.insert(country1);
-        return country1;
+        Country countryEntity = new Country(countryCode, country, city);
+        countryMapper.insert(countryEntity);
+        return countryEntity;
     }
 
 }
