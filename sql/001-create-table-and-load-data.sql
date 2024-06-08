@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS countries;
 
 CREATE TABLE countries (
  country_code int NOT NULL,
- country VARCHAR(20) NOT NULL,
- city VARCHAR(20) NOT NULL,
+ country VARCHAR(100) NOT NULL,
+ city VARCHAR(100) NOT NULL,
  PRIMARY KEY(country_code)
 );
 
