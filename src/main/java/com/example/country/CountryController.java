@@ -2,6 +2,7 @@ package com.example.country;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,9 +37,16 @@ public class CountryController {
     @PostMapping("/countries")
     public ResponseEntity<CountryResponse> insert(@RequestBody CountryRequest countryRequest, UriComponentsBuilder uriBuilder) {
         Country country = countryService.insert(countryRequest.getCountryCode(), countryRequest.getCountry(), countryRequest.getCity());
-        URI location = uriBuilder.path("/users/{country_code}").buildAndExpand(country.getCountryCode()).toUri();
+        URI location = uriBuilder.path("/countries/{country_code}").buildAndExpand(country.getCountryCode()).toUri();
         CountryResponse body = new CountryResponse("country created");
         return ResponseEntity.created(location).body(body);
+    }
+
+    @PatchMapping("/countries/{country_code}")
+    public ResponseEntity<CountryResponse> update(@PathVariable("country_code") int countryCode, @RequestBody CountryRequest countryRequest) {
+        Country country = countryService.update(countryCode, countryRequest.getCountry(), countryRequest.getCity());
+        CountryResponse body = new CountryResponse("country updated");
+        return ResponseEntity.ok(body);
     }
 
 }

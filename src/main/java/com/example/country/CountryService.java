@@ -3,6 +3,7 @@ package com.example.country;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CountryService {
@@ -48,4 +49,14 @@ public class CountryService {
         return countryEntity;
     }
 
+    public Country update(int countryCode, String country, String city) {
+        Country existingCountry = countryMapper.findByCountryCode(countryCode)
+                .orElseThrow(() -> new CountryNotFoundException("Country with code " + countryCode + " not found"));
+
+        existingCountry.setCountry(country);
+        existingCountry.setCity(city);
+
+        countryMapper.update(existingCountry);
+        return existingCountry;
+    }
 }

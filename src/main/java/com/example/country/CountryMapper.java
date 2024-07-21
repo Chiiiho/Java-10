@@ -3,6 +3,7 @@ package com.example.country;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,5 +25,8 @@ public interface CountryMapper {
 
     @Insert("INSERT INTO countries (country_code, country, city) VALUES (#{countryCode}, #{country}, #{city})")
     void insert(Country country);
+
+    @Update("UPDATE countries SET country = #{country}, city = #{city} WHERE country_code = #{countryCode}")
+    void update(Country country);
 
 }
