@@ -1,6 +1,7 @@
 package com.example.country;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,4 +50,10 @@ public class CountryController {
         return ResponseEntity.ok(body);
     }
 
+    @DeleteMapping("/countries/{country_code}")
+    public ResponseEntity<CountryResponse> delete(@PathVariable("country_code") int countryCode) {
+        Country country = countryService.delete(countryCode);
+        CountryResponse body = new CountryResponse("country deleted");
+        return ResponseEntity.ok(body);
+    }
 }
