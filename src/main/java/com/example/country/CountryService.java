@@ -58,4 +58,12 @@ public class CountryService {
         countryMapper.update(existingCountry);
         return existingCountry;
     }
+
+    public Country delete(int countryCode) {
+        Country country = countryMapper.findByCountryCode(countryCode)
+                .orElseThrow(() -> new CountryNotFoundException("Country with code " + countryCode + " not found"));
+
+        countryMapper.delete(country);
+        return country;
+    }
 }

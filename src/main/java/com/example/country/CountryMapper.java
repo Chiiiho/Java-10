@@ -1,5 +1,6 @@
 package com.example.country;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -29,4 +30,6 @@ public interface CountryMapper {
     @Update("UPDATE countries SET country = #{country}, city = #{city} WHERE country_code = #{countryCode}")
     void update(Country country);
 
+    @Delete("DELETE FROM countries WHERE country_code = #{countryCode}")
+    void delete(Country country);
 }
