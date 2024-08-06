@@ -1,5 +1,7 @@
 package com.example.country;
 
+import java.util.Objects;
+
 public class Country {
 
     private int countryCode;
@@ -36,5 +38,18 @@ public class Country {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Country country1 = (Country) o;
+        return Objects.equals(countryCode, country1.countryCode) && Objects.equals(country, country1.country) && Objects.equals(city, country1.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(countryCode, country, city);
     }
 }
