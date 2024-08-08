@@ -101,6 +101,42 @@ class CountryServiceTest {
     }
 
     @Test
+    public void 国名の頭文字のみ指定した場合それに該当する国番号と国名と都市名を返す() {
+        doReturn(List.of(new Country(49, "Germany", "Berlin"))).when(countryMapper).findByCountryStartingWith("g");
+
+        List<Country> actual = countryService.getCountries("g","");
+        assertThat(actual).isEqualTo(List.of(new Country(49, "Germany", "Berlin")));
+
+        verify(countryMapper, times(1)).findByCountryStartingWith("g");
+    }
+
+    @Test
+    public void 都市名の頭文字のみ指定した場合それに該当する国番号と国名と都市名を返す() {
+        doReturn(List.of(new Country(34, "Spain", "Madrid"))).when(countryMapper).findByCityStartingWith("m");
+
+        List<Country> actual = countryService.getCountries("","m");
+        assertThat(actual).isEqualTo(List.of(new Country(34, "Spain", "Madrid")));
+
+        verify(countryMapper, times(1)).findByCityStartingWith("m");
+    }
+
+    @Test
+    public void 国名と都市名を空白で検索し存在する国番号と国名と都市名を全て返す() {
+        List<Country> countryList = List.of(
+                new Country(31, "Netherlands", "Amsterdam"),
+                new Country(33, "France", "Paris"),
+                new Country(34, "Spain", "Madrid"),
+                new Country(44, "the United Kingdom of Great Britain and Northern Ireland", "London"),
+                new Country(49, "Germany", "Berlin"));
+        doReturn(countryList).when(countryMapper).findAll();
+
+        List<Country> actual = countryService.getCountries("","");
+        assertThat(actual).isEqualTo(countryList);
+
+        verify(countryMapper, times(1)).findAll();
+    }
+
+    @Test
     public void 新たな国番号と国名と都市名を登録する() {
         doReturn(Optional.empty()).when(countryMapper).findByCountryCode(32);
 
