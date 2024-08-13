@@ -26,7 +26,7 @@ class CountryServiceTest {
     private CountryMapper countryMapper;
 
     @Test
-    public void 存在する国番号と国名と都市名を全て返す() {
+    public void 存在する国番号と国名と都市名を全て返すこと() {
         List<Country> countryList = List.of(
                 new Country(31, "Netherlands", "Amsterdam"),
                 new Country(33, "France", "Paris"),
@@ -42,7 +42,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 指定した国番号が存在する場合はその国番号と国名と都市名を返す() {
+    public void 指定した国番号が存在する場合はその国番号と国名と都市名を返すこと() {
         doReturn(Optional.of(new Country(44, "the United Kingdom of Great Britain and Northern Ireland", "London"))).when(countryMapper).findByCountryCode(44);
 
         Country actual = countryService.findByCountryCode(44);
@@ -52,7 +52,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 指定した国番号が存在しない場合は例外をスローする() {
+    public void 指定した国番号が存在しない場合は例外をスローすること() {
         doReturn(Optional.empty()).when(countryMapper).findByCountryCode(50);
 
         assertThatThrownBy(() -> countryService.findByCountryCode(50)).isInstanceOf(CountryNotFoundException.class);
@@ -61,7 +61,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 指定した国名の頭文字で存在する国番号と国名と都市名を返す() {
+    public void 指定した国名の頭文字で存在する国番号と国名と都市名を返すこと() {
         doReturn(List.of(new Country(49, "Germany", "Berlin"))).when(countryMapper).findByCountryStartingWith("g");
 
         List<Country> actual = countryService.findByCountry("g");
@@ -71,7 +71,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 指定した国名の頭文字で存在しない国名を検索し何も返さない() {
+    public void 指定した国名の頭文字で存在しない国名を検索し何も返さないこと() {
         doReturn(Collections.emptyList()).when(countryMapper).findByCountryStartingWith("k");
 
         List<Country> actual = countryService.findByCountry("k");
@@ -81,7 +81,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 指定した都市名の頭文字で存在する国番号と国名と都市名を返す() {
+    public void 指定した都市名の頭文字で存在する国番号と国名と都市名を返すこと() {
         doReturn(List.of(new Country(34, "Spain", "Madrid"))).when(countryMapper).findByCityStartingWith("m");
 
         List<Country> actual = countryService.findByCity("m");
@@ -91,7 +91,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 指定した都市名の頭文字で存在しない都市名を検索し何も返さない() {
+    public void 指定した都市名の頭文字で存在しない都市名を検索し何も返さないこと() {
         doReturn(Collections.emptyList()).when(countryMapper).findByCityStartingWith("y");
 
         List<Country> actual = countryService.findByCity("y");
@@ -101,7 +101,43 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 新たな国番号と国名と都市名を登録する() {
+    public void 国名の頭文字のみ指定した場合それに該当する国番号と国名と都市名を返すこと() {
+        doReturn(List.of(new Country(49, "Germany", "Berlin"))).when(countryMapper).findByCountryStartingWith("g");
+
+        List<Country> actual = countryService.getCountries("g","");
+        assertThat(actual).isEqualTo(List.of(new Country(49, "Germany", "Berlin")));
+
+        verify(countryMapper, times(1)).findByCountryStartingWith("g");
+    }
+
+    @Test
+    public void 都市名の頭文字のみ指定した場合それに該当する国番号と国名と都市名を返すこと() {
+        doReturn(List.of(new Country(34, "Spain", "Madrid"))).when(countryMapper).findByCityStartingWith("m");
+
+        List<Country> actual = countryService.getCountries("","m");
+        assertThat(actual).isEqualTo(List.of(new Country(34, "Spain", "Madrid")));
+
+        verify(countryMapper, times(1)).findByCityStartingWith("m");
+    }
+
+    @Test
+    public void 国名と都市名を空白で検索し存在する国番号と国名と都市名を全て返すこと() {
+        List<Country> countryList = List.of(
+                new Country(31, "Netherlands", "Amsterdam"),
+                new Country(33, "France", "Paris"),
+                new Country(34, "Spain", "Madrid"),
+                new Country(44, "the United Kingdom of Great Britain and Northern Ireland", "London"),
+                new Country(49, "Germany", "Berlin"));
+        doReturn(countryList).when(countryMapper).findAll();
+
+        List<Country> actual = countryService.getCountries("","");
+        assertThat(actual).isEqualTo(countryList);
+
+        verify(countryMapper, times(1)).findAll();
+    }
+
+    @Test
+    public void 新たな国番号と国名と都市名を登録すること() {
         doReturn(Optional.empty()).when(countryMapper).findByCountryCode(32);
 
         Country actual = countryService.insert(32, "Belgium", "Brussels");
@@ -111,7 +147,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 登録しようとした国番号が既に存在する場合は例外をスローする() {
+    public void 登録しようとした国番号が既に存在する場合は例外をスローすること() {
         doReturn(Optional.of(new Country(33, "France", "Paris"))).when(countryMapper).findByCountryCode(33);
 
         assertThatThrownBy(() -> countryService.insert(33, "France", "Paris")).isInstanceOf(CountryDuplicatedException.class);
@@ -120,7 +156,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 国名と都市名を更新しようと指定した国番号が存在する場合は国名と都市名を更新する() {
+    public void 国名と都市名を更新しようと指定した国番号が存在する場合は国名と都市名を更新すること() {
         Country existingCountry = new Country(31, "Netherlands", "Amsterdam");
         doReturn(Optional.of(existingCountry)).when(countryMapper).findByCountryCode(31);
 
@@ -132,7 +168,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 国名と都市名を更新しようと指定した国番号が存在しない場合は例外をスローする() {
+    public void 国名と都市名を更新しようと指定した国番号が存在しない場合は例外をスローすること() {
         doReturn(Optional.empty()).when(countryMapper).findByCountryCode(351);
 
         assertThatThrownBy(() -> countryService.update(351, "Portugal", "Lisbon")).isInstanceOf(CountryNotFoundException.class);
@@ -141,7 +177,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 削除しようと指定した国番号が存在する場合は削除する() {
+    public void 削除しようと指定した国番号が存在する場合は削除すること() {
         Country existingCountry = new Country(49, "Germany", "Berlin");
         doReturn(Optional.of(existingCountry)).when(countryMapper).findByCountryCode(49);
 
@@ -152,7 +188,7 @@ class CountryServiceTest {
     }
 
     @Test
-    public void 削除しようと指定した国番号が存在しない場合は例外をスローする() {
+    public void 削除しようと指定した国番号が存在しない場合は例外をスローすること() {
         doReturn(Optional.empty()).when(countryMapper).findByCountryCode(352);
 
         assertThatThrownBy(() -> countryService.delete(352)).isInstanceOf(CountryNotFoundException.class);
