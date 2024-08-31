@@ -1,0 +1,13 @@
+countries:
+  - country_code: 36
+    country: "Hungary"
+    city: "Budapest"
+  - country_code: 43
+    country: "Austria"
+    city: "Vienna"
+  - country_code: 385
+    country: "Croatia"
+    city: "Zagreb"
+  - country_code: 420
+    country: "The Czech Republic"
+    city: "Prague"

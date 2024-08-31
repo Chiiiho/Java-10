@@ -1,0 +1,7 @@
+countries:
+  - country_code: 36
+    country: "Hungary"
+    city: "Budapest"
+  - country_code: 43
+    country: "Austria"
+    city: "Vienna"

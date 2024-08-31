@@ -58,15 +58,15 @@ class CountryControllerTest {
 
     @Test
     public void 指定した存在しない国名や都市名の頭文字で何も返さないこと() throws Exception {
-        when(countryService.getCountries("", "")).thenReturn(Collections.emptyList());
+        when(countryService.getCountries("k", "y")).thenReturn(Collections.emptyList());
 
         mockMvc.perform(get("/countries")
-                        .param("countryStartsWith", "")
-                        .param("cityStartsWith", ""))
+                        .param("countryStartsWith", "k")
+                        .param("cityStartsWith", "y"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
 
-        verify(countryService, times(1)).getCountries("","");
+        verify(countryService, times(1)).getCountries("k","y");
     }
 
     @Test
