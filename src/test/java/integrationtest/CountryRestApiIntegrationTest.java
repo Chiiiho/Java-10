@@ -90,7 +90,7 @@ class CountryRestApiIntegrationTest {
     @Test
     @DataSet(value = "datasets/countries.yml")
     @Transactional
-    void 指定した存在しない国名や都市名の頭文字で何も返さないこと() throws Exception {
+    void 指定した存在しない国名や都市名の頭文字で空の配列を返却すること() throws Exception {
         String response = mockMvc.perform(get("/countries")
                     .param("countryStartsWith", "c")
                     .param("cityStartsWith", "d"))
@@ -99,9 +99,9 @@ class CountryRestApiIntegrationTest {
 
         JSONAssert.assertEquals(
                 """
-                     []
-                     """,
-                    response, JSONCompareMode.STRICT);
+                []
+                """,
+                response, JSONCompareMode.STRICT);
     }
 
     @Test
@@ -131,10 +131,10 @@ class CountryRestApiIntegrationTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().json(
                         """
-                            {
-                                "message":"Country with code 999 not found"
-                            }
-                            """
+                        {
+                            "message":"Country with code 999 not found"
+                        }
+                        """
                 ));
 }
 
@@ -144,21 +144,21 @@ class CountryRestApiIntegrationTest {
     @Transactional
     void 新たな国番号と国名と都市名を登録すること() throws Exception {
         mockMvc.perform(post("/countries").contentType(MediaType.APPLICATION_JSON).content(
-                    """
-                        {
-                            "countryCode":385,
-                            "country":"Croatia",
-                            "city":"Zagreb"
-                        }
-                        """
+                """
+                {
+                    "countryCode":385,
+                    "country":"Croatia",
+                    "city":"Zagreb"
+                }
+                """
                 ))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(
                         """
-                            {
-                                "message":"country created"
-                            }
-                            """
+                        {
+                            "message":"country created"
+                        }
+                        """
                 ));
     }
 
@@ -167,21 +167,21 @@ class CountryRestApiIntegrationTest {
     @Transactional
     void 登録しようとした国番号が既に存在する場合は例外メッセージをスローすること() throws Exception {
         mockMvc.perform(post("/countries").contentType(MediaType.APPLICATION_JSON).content(
-                        """
-                            {
-                                "countryCode":36,
-                                "country":"Hungary",
-                                "city":"Budapest"
-                            }
-                            """
+                """
+                {
+                    "countryCode":36,
+                    "country":"Hungary",
+                    "city":"Budapest"
+                }
+                """
                 ))
                 .andExpect(status().isConflict())
                 .andExpect(content().json(
                         """
-                            {
-                                "message":"Country with code 36 duplicated"
-                            }
-                            """
+                        {
+                            "message":"Country with code 36 duplicated"
+                        }
+                        """
                 ));
     }
 
@@ -191,19 +191,42 @@ class CountryRestApiIntegrationTest {
     @Transactional
     void 国番号を指定して国名と都市名を更新すること() throws Exception {
         mockMvc.perform(patch("/countries/{country_code}", 36).contentType(MediaType.APPLICATION_JSON).content(
-                        """
-                        {
-                           "countryCode": 36,
-                           "country": "Republic of Hungary",
-                           "city": "Szentendre"
-                        }
-                        """
+                """
+                {
+                    "countryCode":36,
+                    "country":"Republic of Hungary",
+                    "city":"Szentendre"
+                }
+                """
                 ))
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         """
                         {
                             "message":"country updated"
+                        }
+                        """
+                ));
+    }
+
+    @Test
+    @DataSet(value = "datasets/countries.yml")
+    @Transactional
+    void 更新しようとした国番号が存在しない場合は例外メッセージをスローすること() throws Exception {
+        mockMvc.perform(patch("/countries/{country_code}", 385).contentType(MediaType.APPLICATION_JSON).content(
+                """
+                {
+                    "countryCode":385,
+                    "country":"Croatia",
+                    "city":"Zagreb"
+                }
+                """
+                ))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json(
+                        """
+                        {
+                            "message":"Country with code 385 not found"
                         }
                         """
                 ));
@@ -220,6 +243,21 @@ class CountryRestApiIntegrationTest {
                         """
                         {
                             "message":"country deleted"
+                        }
+                        """
+                ));
+    }
+
+    @Test
+    @DataSet(value = "datasets/countries.yml")
+    @Transactional
+    void 削除しようとした国番号が存在しない場合は例外メッセージをスローすること() throws Exception {
+        mockMvc.perform(delete("/countries/{country_code}", 385))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json(
+                        """
+                        {
+                            "message":"Country with code 385 not found"
                         }
                         """
                 ));
