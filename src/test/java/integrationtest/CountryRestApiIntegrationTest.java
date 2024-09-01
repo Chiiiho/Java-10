@@ -136,7 +136,7 @@ class CountryRestApiIntegrationTest {
                         }
                         """
                 ));
-}
+    }
 
     @Test
     @DataSet(value = "datasets/countries.yml")
