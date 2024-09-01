@@ -42,26 +42,26 @@ class CountryRestApiIntegrationTest {
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
         JSONAssert.assertEquals(
-                    """
-                    [
-                        {
-                            "countryCode":36,
-                            "country":"Hungary",
-                            "city":"Budapest"
-                        },
-                        {
-                            "countryCode":43,
-                            "country":"Austria",
-                            "city":"Vienna"
-                        },
-                        {
-                            "countryCode":420,
-                            "country":"The Czech Republic",
-                            "city":"Prague"
-                        }
-                    ]
-                    """,
-                    response, JSONCompareMode.STRICT);
+                """
+                [
+                    {
+                        "countryCode":36,
+                        "country":"Hungary",
+                        "city":"Budapest"
+                    },
+                    {
+                        "countryCode":43,
+                        "country":"Austria",
+                        "city":"Vienna"
+                    },
+                    {
+                        "countryCode":420,
+                        "country":"The Czech Republic",
+                        "city":"Prague"
+                    }
+                ]
+                """,
+                response, JSONCompareMode.STRICT);
     }
 
     @Test
@@ -76,15 +76,15 @@ class CountryRestApiIntegrationTest {
 
         JSONAssert.assertEquals(
                 """
-                    [
-                        {
-                            "countryCode":36,
-                            "country":"Hungary",
-                            "city":"Budapest"
-                        }
-                    ]
-                    """,
-                    response, JSONCompareMode.STRICT);
+                [
+                    {
+                        "countryCode":36,
+                        "country":"Hungary",
+                        "city":"Budapest"
+                    }
+                ]
+                """,
+                response, JSONCompareMode.STRICT);
     }
 
     @Test
@@ -114,13 +114,13 @@ class CountryRestApiIntegrationTest {
 
         JSONAssert.assertEquals(
                 """
-                    {
-                        "countryCode":36,
-                        "country":"Hungary",
-                        "city":"Budapest"
-                    }
-                    """,
-                    response, JSONCompareMode.STRICT);
+                {
+                    "countryCode":36,
+                    "country":"Hungary",
+                    "city":"Budapest"
+                }
+                """,
+                response, JSONCompareMode.STRICT);
     }
 
     @Test
